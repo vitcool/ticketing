@@ -5,11 +5,6 @@ import mongoose from 'mongoose';
 import cookieSession from 'cookie-session';
 import { NotFoundError, errorHandler } from '@vkticketing/common';
 
-import { currentUserRouter } from './routes/current-user';
-import { signinRouter } from './routes/signin';
-import { signoutRouter } from './routes/signout';
-import { signupRouter } from './routes/signup';
-
 
 const app = express();
 app.set('trust proxy', true);
@@ -18,11 +13,6 @@ app.use(cookieSession({
   signed: false,
   secure: true
 }));
-
-app.use(currentUserRouter);
-app.use(signinRouter);
-app.use(signoutRouter);
-app.use(signupRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();
@@ -45,6 +35,7 @@ const start = async () => {
       useUnifiedTopology: true,
       useCreateIndex: true
     });
+    console.log('Connected to the MongoDB')
   } catch (e) {
     console.error(e);
   }
